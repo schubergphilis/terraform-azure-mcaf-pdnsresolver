@@ -1,3 +1,9 @@
+variable "tags" {
+  description = "A map of tags to assign to the resource."
+  type        = map(string)
+  default     = {}
+}
+
 variable "resource_group" {
   description = "Resource group configuration"
   type = object({
@@ -26,6 +32,7 @@ variable "private_dns_resolver_inbound_endpoint" {
 variable "private_dns_resolver_outbound_endpoint" {
   description = "Private DNS resolver outbound endpoint configuration"
   type = object({
+    enabled   = bool
     name      = string
     subnet_id = string
   })
@@ -33,10 +40,20 @@ variable "private_dns_resolver_outbound_endpoint" {
 variable "private_dns_resolver_forwarding_rule" {
   description = "Private DNS resolver forwarding rule configuration"
   type = map(object({
-    name               = string
-    domain_name        = string
-    enabled            = bool
-    target_dns_servers = string
-    port               = number
+    name        = string
+    domain_name = string
+    enabled     = optional(bool)
+    target_dns_servers = list(object({
+      ip_address = string
+      port       = optional(number, 53)
+    }))
   }))
+}
+
+variable "virtual_network" {
+  description = "Vitual Network details"
+  type = object({
+    name = string
+    id   = string
+  })
 }
