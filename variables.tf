@@ -15,8 +15,9 @@ variable "resource_group" {
 variable "private_dns_resolver" {
   description = "Private DNS resolver configuration"
   type = object({
-    name               = string
-    virtual_network_id = string
+    name                  = string
+    virtual_network_id    = string
+    virtual_netwwork_name = string
   })
 }
 
@@ -24,7 +25,7 @@ variable "private_dns_resolver_inbound_endpoint" {
   description = "Private DNS resolver inbound endpoint configuration"
   type = object({
     name                         = string
-    private_ip_allocation_method = string
+    private_ip_allocation_method = optional(string, "static")
     subnet_id                    = string
   })
 }
@@ -32,7 +33,7 @@ variable "private_dns_resolver_inbound_endpoint" {
 variable "private_dns_resolver_outbound_endpoint" {
   description = "Private DNS resolver outbound endpoint configuration"
   type = object({
-    enabled   = bool
+    enabled   = optional(bool, true)
     name      = string
     subnet_id = string
   })
@@ -42,18 +43,10 @@ variable "private_dns_resolver_forwarding_rule" {
   type = map(object({
     name        = string
     domain_name = string
-    enabled     = optional(bool)
+    enabled     = optional(bool, true)
     target_dns_servers = list(object({
       ip_address = string
       port       = optional(number, 53)
     }))
   }))
-}
-
-variable "virtual_network" {
-  description = "Vitual Network details"
-  type = object({
-    name = string
-    id   = string
-  })
 }
