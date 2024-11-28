@@ -4,8 +4,8 @@ provider "azurerm" {
   features {}
 }
 
-module "dns_resolver" {
-  source = "./path/to/your/module"
+module "pdns_resolver" {
+  source = "../../"
 
   resource_group = {
     name     = "example-resource-group"
