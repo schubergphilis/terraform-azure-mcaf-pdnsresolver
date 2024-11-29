@@ -17,7 +17,7 @@ variable "private_dns_resolver" {
   type = object({
     name                  = string
     virtual_network_id    = string
-    virtual_netwwork_name = string
+    virtual_network_name = string
   })
 }
 
