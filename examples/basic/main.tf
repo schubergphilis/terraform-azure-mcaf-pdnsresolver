@@ -21,8 +21,8 @@ module "pdns_resolver" {
   }
 
   private_dns_resolver = {
-    name                  = "example-dns-resolver"
-    virtual_network_id    = "vnet-id"
+    name                 = "example-dns-resolver"
+    virtual_network_id   = "vnet-id"
     virtual_network_name = "vnet-name"
   }
 
