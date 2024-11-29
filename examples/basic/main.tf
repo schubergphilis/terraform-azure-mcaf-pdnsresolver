@@ -23,7 +23,7 @@ module "pdns_resolver" {
   private_dns_resolver = {
     name                  = "example-dns-resolver"
     virtual_network_id    = "vnet-id"
-    virtual_netwwork_name = "vnet-name"
+    virtual_network_name = "vnet-name"
   }
 
   private_dns_resolver_inbound_endpoint = {

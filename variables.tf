@@ -15,8 +15,8 @@ variable "resource_group" {
 variable "private_dns_resolver" {
   description = "Private DNS resolver configuration"
   type = object({
-    name                  = string
-    virtual_network_id    = string
+    name                 = string
+    virtual_network_id   = string
     virtual_network_name = string
   })
 }
