@@ -38,6 +38,10 @@ module "pdns_resolver" {
     subnet_id = "subnet-id"
   }
 
+  private_dns_resolver_forwarding_ruleset = {
+    name = "ruleset"
+  }
+
   private_dns_resolver_forwarding_rule = {
     rule1 = {
       name        = "rule1"

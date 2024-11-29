@@ -38,6 +38,14 @@ variable "private_dns_resolver_outbound_endpoint" {
     subnet_id = string
   })
 }
+
+variable "private_dns_resolver_forwarding_ruleset" {
+  description = "Private DNS resolver forwarding ruleset configuration"
+  type = object({
+    name = string
+  })
+}
+
 variable "private_dns_resolver_forwarding_rule" {
   description = "Private DNS resolver forwarding rule configuration"
   type = map(object({
