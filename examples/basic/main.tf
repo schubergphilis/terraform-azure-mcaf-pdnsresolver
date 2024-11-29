@@ -39,24 +39,19 @@ module "pdns_resolver" {
   }
 
   private_dns_resolver_forwarding_rule = {
-    each = {
-      rule1 = {
-        name        = "rule1"
-        domain_name = "example.com"
-        enabled     = true
-        target_dns_servers = [
-          {
-            ip_address = "10.0.0.1"
-            port       = 53
-          },
-          {
-            ip_address = "10.0.0.2"
-            port       = 53
-          }
-        ]
-      }
+    rule1 = {
+      name        = "rule1"
+      domain_name = "example.com"
+      enabled     = true
+      target_dns_servers = [
+        {
+          ip_address = "10.0.0.1"
+          port       = 53
+        }
+      ]
     }
   }
+
 
   tags = {
     Owner       = "team-name"
