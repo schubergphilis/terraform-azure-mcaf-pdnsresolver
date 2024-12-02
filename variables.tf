@@ -52,11 +52,11 @@ variable "private_dns_resolver_forwarding_ruleset" {
 variable "private_dns_resolver_forwarding_rule" {
   description = "Private DNS resolver forwarding rule configuration"
   type = map(object({
-    name        = string
-    domain_name = string
+    name        = optional(string, null)
+    domain_name = optional(string, null)
     enabled     = optional(bool, true)
     target_dns_servers = list(object({
-      ip_address = string
+      ip_address = optional(string, null)
       port       = optional(number, 53)
     }))
   }))
