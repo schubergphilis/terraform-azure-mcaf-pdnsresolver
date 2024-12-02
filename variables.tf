@@ -24,9 +24,12 @@ variable "private_dns_resolver" {
 variable "private_dns_resolver_inbound_endpoint" {
   description = "Private DNS resolver inbound endpoint configuration"
   type = object({
-    name                         = string
-    private_ip_allocation_method = optional(string, "static")
-    subnet_id                    = string
+    name = string
+    ip_configurations = list(object({
+      private_ip_allocation_method = optional(string, "Static")
+      subnet_id                    = string
+      private_ip_address           = optional(string, null)
+    }))
   })
 }
 
