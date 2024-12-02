@@ -29,7 +29,7 @@ module "pdns_resolver" {
       {
         private_ip_allocation_method = "Static"
         subnet_id                    = "subnet-id"
-        private_ip_address           = "10.0.0.4"  # Ensure this is a valid IP within the subnet range
+        private_ip_address           = "10.0.0.4" # Ensure this is a valid IP within the subnet range
       }
     ]
   }
