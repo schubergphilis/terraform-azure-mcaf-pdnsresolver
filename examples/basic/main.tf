@@ -1,6 +1,4 @@
 terraform {
-
-
   required_version = ">= 1.8"
 
   required_providers {
@@ -10,7 +8,6 @@ terraform {
     }
   }
 }
-
 
 module "pdns_resolver" {
   source = "../../"
@@ -27,9 +24,14 @@ module "pdns_resolver" {
   }
 
   private_dns_resolver_inbound_endpoint = {
-    name                         = "inbound-endpoint"
-    private_ip_allocation_method = "Static"
-    subnet_id                    = "subnet-id"
+    name = "inbound-endpoint"
+    ip_configurations = [
+      {
+        private_ip_allocation_method = "Static"
+        subnet_id                    = "subnet-id"
+        private_ip_address           = "10.0.0.4" # Ensure this is a valid IP within the subnet range
+      }
+    ]
   }
 
   private_dns_resolver_outbound_endpoint = {
@@ -55,7 +57,6 @@ module "pdns_resolver" {
       ]
     }
   }
-
 
   tags = {
     Owner       = "team-name"
