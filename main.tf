@@ -45,8 +45,7 @@ resource "azurerm_private_dns_resolver_inbound_endpoint" "this" {
 }
 
 resource "azurerm_private_dns_resolver_outbound_endpoint" "this" {
-  count = var.private_dns_resolver_outbound_endpoint.enabled ? 1 : 0
-
+  for_each = var.private_dns_resolver_outbound_endpoint
   name                    = var.private_dns_resolver_outbound_endpoint.name
   location                = azurerm_resource_group.this.location
   private_dns_resolver_id = azurerm_private_dns_resolver.this.id
@@ -61,12 +60,12 @@ resource "azurerm_private_dns_resolver_outbound_endpoint" "this" {
 }
 
 resource "azurerm_private_dns_resolver_dns_forwarding_ruleset" "this" {
-  count = var.private_dns_resolver_outbound_endpoint.enabled ? 1 : 0
+  for_each = var.private_dns_resolver_forwarding_ruleset
 
-  name                                       = var.private_dns_resolver_forwarding_ruleset.name
+  name                                       = var.private_dns_resolver_forwarding_ruleset[each.key].name
   resource_group_name                        = azurerm_resource_group.this.name
   location                                   = azurerm_resource_group.this.location
-  private_dns_resolver_outbound_endpoint_ids = [azurerm_private_dns_resolver_outbound_endpoint.this[count.index].id]
+  private_dns_resolver_outbound_endpoint_ids = [azurerm_private_dns_resolver_outbound_endpoint.this[0].id]
 
   tags = merge(
     try(var.tags),
@@ -79,13 +78,13 @@ resource "azurerm_private_dns_resolver_dns_forwarding_ruleset" "this" {
 resource "azurerm_private_dns_resolver_forwarding_rule" "this" {
   for_each = var.private_dns_resolver_forwarding_rule
 
-  name                      = var.private_dns_resolver_forwarding_rule[each.key].name
+  name                      = each.value.name
   dns_forwarding_ruleset_id = azurerm_private_dns_resolver_dns_forwarding_ruleset.this[0].id
-  domain_name               = var.private_dns_resolver_forwarding_rule[each.key].domain_name
-  enabled                   = var.private_dns_resolver_forwarding_rule[each.key].enabled
+  domain_name               = each.value.domain_name
+  enabled                   = each.value.enabled
 
   dynamic "target_dns_servers" {
-    for_each = var.private_dns_resolver_forwarding_rule[each.key].target_dns_servers
+    for_each = each.value.target_dns_servers
     content {
       ip_address = target_dns_servers.value.ip_address
       port       = target_dns_servers.value.port
@@ -94,7 +93,7 @@ resource "azurerm_private_dns_resolver_forwarding_rule" "this" {
 }
 
 resource "azurerm_private_dns_resolver_virtual_network_link" "this" {
-  count = var.private_dns_resolver_outbound_endpoint.enabled ? 1 : 0
+  for_each = var.private_dns_resolver_outbound_endpoint
 
   name                      = "${var.private_dns_resolver.virtual_network_name}-link"
   dns_forwarding_ruleset_id = azurerm_private_dns_resolver_dns_forwarding_ruleset.this[0].id

@@ -36,10 +36,10 @@ variable "private_dns_resolver_inbound_endpoint" {
 variable "private_dns_resolver_outbound_endpoint" {
   description = "Private DNS resolver outbound endpoint configuration"
   type = object({
-    enabled   = optional(bool, true)
     name      = string
     subnet_id = string
   })
+  default = {}
 }
 
 variable "private_dns_resolver_forwarding_ruleset" {
@@ -47,6 +47,7 @@ variable "private_dns_resolver_forwarding_ruleset" {
   type = object({
     name = string
   })
+  default = {}
 }
 
 variable "private_dns_resolver_forwarding_rule" {
@@ -60,4 +61,5 @@ variable "private_dns_resolver_forwarding_rule" {
       port       = optional(number, 53)
     }))
   }))
+  default = {}
 }
