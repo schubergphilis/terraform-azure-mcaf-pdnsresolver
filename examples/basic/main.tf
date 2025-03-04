@@ -42,12 +42,14 @@ module "pdns_resolver" {
   private_dns_resolver_forwarding_rulesets = {
     ruleset1 = {
       forwarding_rules = {
-        domain_name = "example.com"
-        target_dns_servers = [{
-          ip_address = "10.0.0.1"
-          port       = 53
-          }
-        ]
+        rule1 = {
+          domain_name = "example.com"
+          target_dns_servers = [{
+            ip_address = "10.0.0.1"
+            port       = 53
+            }
+          ]
+        }
       }
     }
   }
