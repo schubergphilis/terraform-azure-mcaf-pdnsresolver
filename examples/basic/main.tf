@@ -35,26 +35,22 @@ module "pdns_resolver" {
   }
 
   private_dns_resolver_outbound_endpoint = {
-    enabled   = true
     name      = "outbound-endpoint"
     subnet_id = "subnet-id"
   }
 
-  private_dns_resolver_forwarding_ruleset = {
-    name = "ruleset"
-  }
-
-  private_dns_resolver_forwarding_rule = {
-    rule1 = {
-      name        = "rule1"
-      domain_name = "example.com"
-      enabled     = true
-      target_dns_servers = [
-        {
-          ip_address = "10.0.0.1"
-          port       = 53
+  private_dns_resolver_forwarding_rulesets = {
+    ruleset1 = {
+      forwarding_rules = {
+        rule1 = {
+          domain_name = "example.com"
+          target_dns_servers = [{
+            ip_address = "10.0.0.1"
+            port       = 53
+            }
+          ]
         }
-      ]
+      }
     }
   }
 

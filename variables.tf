@@ -36,28 +36,22 @@ variable "private_dns_resolver_inbound_endpoint" {
 variable "private_dns_resolver_outbound_endpoint" {
   description = "Private DNS resolver outbound endpoint configuration"
   type = object({
-    enabled   = optional(bool, true)
     name      = string
     subnet_id = string
   })
+  default = null
 }
 
-variable "private_dns_resolver_forwarding_ruleset" {
-  description = "Private DNS resolver forwarding ruleset configuration"
-  type = object({
-    name = string
-  })
-}
-
-variable "private_dns_resolver_forwarding_rule" {
-  description = "Private DNS resolver forwarding rule configuration"
+variable "private_dns_resolver_forwarding_rulesets" {
+  description = "Private DNS resolver forwarding ruleset configurations"
   type = map(object({
-    name        = optional(string, null)
-    domain_name = optional(string, null)
-    enabled     = optional(bool, true)
-    target_dns_servers = list(object({
-      ip_address = optional(string, null)
-      port       = optional(number, 53)
+    forwarding_rules = map(object({
+      domain_name = optional(string, null)
+      target_dns_servers = list(object({
+        ip_address = optional(string, null)
+        port       = optional(number, 53)
+      }))
     }))
   }))
+  default = {}
 }
