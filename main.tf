@@ -77,7 +77,7 @@ resource "azurerm_private_dns_resolver_dns_forwarding_ruleset" "this" {
 }
 
 resource "azurerm_private_dns_resolver_forwarding_rule" "this" {
-  for_each = var.private_dns_resolver_forwarding_rulesets
+  for_each = local.private_dns_resolver_forwarding_rulesets
 
   name                      = each.value.name
   dns_forwarding_ruleset_id = azurerm_private_dns_resolver_dns_forwarding_ruleset.this[each.key].id
