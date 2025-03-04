@@ -41,7 +41,7 @@ module "pdns_resolver" {
 
   private_dns_resolver_forwarding_rulesets = {
     ruleset = {
-      ruleset1 = {
+      rule1 = {
         forwarding_rules = {
           domain_name = "example.com"
           target_dns_servers = [{
@@ -52,10 +52,10 @@ module "pdns_resolver" {
         }
       }
     }
+  }
 
-    tags = {
-      Owner       = "team-name"
-      Environment = "production"
-    }
+  tags = {
+    Owner       = "team-name"
+    Environment = "production"
   }
 }
