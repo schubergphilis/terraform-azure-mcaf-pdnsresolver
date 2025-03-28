@@ -1,7 +1,8 @@
 variable "tags" {
   description = "A map of tags to assign to the resource."
   type        = map(string)
-  default     = {}
+
+  default = {}
 }
 
 variable "resource_group" {
@@ -39,6 +40,7 @@ variable "private_dns_resolver_outbound_endpoint" {
     name      = string
     subnet_id = string
   })
+
   default = null
 }
 
@@ -53,5 +55,6 @@ variable "private_dns_resolver_forwarding_rulesets" {
       }))
     }))
   }))
+
   default = {}
 }

@@ -1,12 +1,8 @@
 resource "azurerm_resource_group" "this" {
   name     = var.resource_group.name
   location = var.resource_group.location
-  tags = merge(
-    try(var.tags),
-    tomap({
-      "Resource Type" = "Resource Group"
-    })
-  )
+
+  tags = merge(var.tags, { "Resource Type" = "Resource Group" })
 }
 
 resource "azurerm_private_dns_resolver" "this" {
@@ -14,12 +10,8 @@ resource "azurerm_private_dns_resolver" "this" {
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
   virtual_network_id  = var.private_dns_resolver.virtual_network_id
-  tags = merge(
-    try(var.tags),
-    tomap({
-      "Resource Type" = "Private DNS Resolver"
-    })
-  )
+
+  tags = merge(var.tags, { "Resource Type" = "Private DNS Resolver" })
 }
 
 resource "azurerm_private_dns_resolver_inbound_endpoint" "this" {
@@ -29,6 +21,7 @@ resource "azurerm_private_dns_resolver_inbound_endpoint" "this" {
 
   dynamic "ip_configurations" {
     for_each = var.private_dns_resolver_inbound_endpoint.ip_configurations
+
     content {
       private_ip_allocation_method = ip_configurations.value.private_ip_allocation_method
       subnet_id                    = ip_configurations.value.subnet_id
@@ -36,12 +29,7 @@ resource "azurerm_private_dns_resolver_inbound_endpoint" "this" {
     }
   }
 
-  tags = merge(
-    try(var.tags),
-    tomap({
-      "Resource Type" = "Private DNS Resolver Inbound Endpoint"
-    })
-  )
+  tags = merge(var.tags, { "Resource Type" = "Private DNS Resolver Inbound Endpoint" })
 }
 
 resource "azurerm_private_dns_resolver_outbound_endpoint" "this" {
@@ -52,12 +40,7 @@ resource "azurerm_private_dns_resolver_outbound_endpoint" "this" {
   private_dns_resolver_id = azurerm_private_dns_resolver.this.id
   subnet_id               = var.private_dns_resolver_outbound_endpoint.subnet_id
 
-  tags = merge(
-    try(var.tags),
-    tomap({
-      "Resource Type" = "Private DNS Resolver Outbound Endpoint"
-    })
-  )
+  tags = merge(var.tags, { "Resource Type" = "Private DNS Resolver Outbound Endpoint" })
 }
 
 resource "azurerm_private_dns_resolver_dns_forwarding_ruleset" "this" {
@@ -68,12 +51,7 @@ resource "azurerm_private_dns_resolver_dns_forwarding_ruleset" "this" {
   location                                   = azurerm_resource_group.this.location
   private_dns_resolver_outbound_endpoint_ids = [azurerm_private_dns_resolver_outbound_endpoint.this[0].id]
 
-  tags = merge(
-    try(var.tags),
-    tomap({
-      "Resource Type" = "Private DNS Resolver DNS Forwarding Ruleset"
-    })
-  )
+  tags = merge(var.tags, { "Resource Type" = "Private DNS Resolver DNS Forwarding Ruleset" })
 }
 
 resource "azurerm_private_dns_resolver_forwarding_rule" "this" {
@@ -85,6 +63,7 @@ resource "azurerm_private_dns_resolver_forwarding_rule" "this" {
 
   dynamic "target_dns_servers" {
     for_each = each.value.target_dns_servers
+
     content {
       ip_address = target_dns_servers.value.ip_address
       port       = target_dns_servers.value.port
