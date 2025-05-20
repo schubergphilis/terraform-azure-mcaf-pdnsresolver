@@ -7,5 +7,5 @@ locals {
         target_dns_servers = rule.target_dns_servers
       }
     ]
-  ]) : "${item.ruleset_name}${item.domain_name}" => item }
+  ]) : "${item.ruleset_name}" => item }
 }
