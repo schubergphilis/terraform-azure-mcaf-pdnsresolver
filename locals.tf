@@ -6,5 +6,5 @@ locals {
         target_dns_servers = rule.target_dns_servers
       }
     ]
-  ]) : "${item.ruleset_name}${item.forwarding_rules}" => item }
+  ]) : "${item.domain_name}" => item }
 }
