@@ -72,9 +72,9 @@ resource "azurerm_private_dns_resolver_forwarding_rule" "this" {
 }
 
 resource "azurerm_private_dns_resolver_virtual_network_link" "this" {
-  count = var.private_dns_resolver_outbound_endpoint != null ? 1 : 0
+  for_each = var.private_dns_resolver_forwarding_rulesets != null ? var.private_dns_resolver_forwarding_rulesets : []
 
   name                      = "${var.private_dns_resolver.virtual_network_name}-link"
-  dns_forwarding_ruleset_id = azurerm_private_dns_resolver_dns_forwarding_ruleset.this[0].id
+  dns_forwarding_ruleset_id = azurerm_private_dns_resolver_dns_forwarding_ruleset.this[each.key].id
   virtual_network_id        = var.private_dns_resolver.virtual_network_id
 }
